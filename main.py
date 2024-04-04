@@ -143,6 +143,89 @@ def read_posts(filter_date: str = None, author: str = None, tags: str = None, db
     if tags:
         query = query.filter(Post.tags.contains(tags))
     return query.all()
+    
+@app.post("/posts/")
+def create_post(title: str, content: str, author: str, tags: str = None):
+    db = SessionLocal()
+    new_post = Post(title=title, content=content, author=author, tags=tags)
+    db.add(new_post)
+    db.commit()
+    db.refresh(new_post)
+    return new_post
+
+@app.get("/posts/")
+def read_posts(filter_date: str = None, author: str = None, tags: str = None):
+    db = SessionLocal()
+    query = db.query(Post)
+    if filter_date:
+        query = query.filter(Post.created_at == filter_date)
+    if author:
+        query = query.filter(Post.author == author)
+    if tags:
+        query = query.filter(Post.tags.contains(tags))
+    return query.all()
+
+@app.get("/posts/{post_id}")
+def read_post(post_id: int):
+    db = SessionLocal()
+    post = db.query(Post).filter(Post.id == post_id).first()
+    if post is None:
+        raise HTTPException(status_code=404, detail="Post not found")
+    return post
+
+@app.put("/posts/{post_id}")
+def update_post(post_id: int, title: str, content: str, author: str, tags: str = None):
+    db = SessionLocal()
+    post = db.query(Post).filter(Post.id == post_id).first()
+    if post is None:
+        raise HTTPException(status_code=404, detail="Post not found")
+    post.title = title
+    post.content = content
+    post.author = author
+    post.tags = tags
+    db.commit()
+    db.refresh(post)
+    return post
+
+@app.delete("/posts/{post_id}")
+def delete_post(post_id: int):
+    db = SessionLocal()
+    post = db.query(Post).filter(Post.id == post_id).first()
+    if post is None:
+        raise HTTPException(status_code=404, detail="Post not found")
+    db.delete(post)
+    db.commit()
+    return {"message": "Post deleted successfully"}
+
+@app.post("/posts/{post_id}/comments/")
+def create_comment(post_id: int, author: str, text: str):
+    db = SessionLocal()
+    post = db.query(Post).filter(Post.id == post_id).first()
+    if post is None:
+        raise HTTPException(status_code=404, detail="Post not found")
+    new_comment = Comment(post_id=post_id, author=author, text=text)
+    db.add(new_comment)
+    db.commit()
+    db.refresh(new_comment)
+    return new_comment
+
+@app.get("/posts/{post_id}/comments/")
+def read_comments(post_id: int):
+    db = SessionLocal()
+    post = db.query(Post).filter(Post.id == post_id).first()
+    if post is None:
+        raise HTTPException(status_code=404, detail="Post not found")
+    return post.comments
+
+@app.delete("/comments/{comment_id}")
+def delete_comment(comment_id: int):
+    db = SessionLocal()
+    comment = db.query(Comment).filter(Comment.id == comment_id).first()
+    if comment is None:
+        raise HTTPException(status_code=404, detail="Comment not found")
+    db.delete(comment)
+    db.commit()
+    return {"message": "Comment deleted successfully"}
 
 # Implement other CRUD operations for posts and comments similarly...
 
