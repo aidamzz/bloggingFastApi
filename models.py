@@ -1,6 +1,7 @@
 import uuid
-from sqlalchemy import Column, String, Text, TIMESTAMP, ForeignKey
+from sqlalchemy import Column, String, Text, TIMESTAMP, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
 from .database import Base
 
 def generate_uuid():
@@ -11,7 +12,7 @@ class Post(Base):
     id = Column(String(36), primary_key=True, index=True, default=generate_uuid)
     title = Column(String(255), index=True)
     content = Column(Text)
-    created_at = Column(TIMESTAMP)
+    created_at = Column(DateTime(timezone=True), default=func.now())
     author_id = Column(String(36), ForeignKey('users.id'))
     tags = Column(String(255))
 
