@@ -1,13 +1,16 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from typing import List
-from .. import models, schemas, database  # Adjust import paths as needed
+from typing import List, Optional
+from datetime import datetime
+from .. import models, schemas
+from ..database import SessionLocal
+from fastapi.responses import JSONResponse
 
 router = APIRouter()
 
 # Dependency to get DB session
 def get_db():
-    db = database.SessionLocal()
+    db = SessionLocal()
     try:
         yield db
     finally:
@@ -15,8 +18,11 @@ def get_db():
 
 @router.post("/posts/{post_id}/comments/", response_model=schemas.Comment)
 def create_comment_for_post(post_id: str, comment: schemas.CommentCreate, db: Session = Depends(get_db)):
+    # print(post_id)
     # Verify post exists
     db_post = db.query(models.Post).filter(models.Post.id == post_id).first()
+    # print(db_post,"...........................")
+    # return db_post
     if db_post is None:
         raise HTTPException(status_code=404, detail="Post not found")
     
@@ -42,4 +48,4 @@ def delete_comment(comment_id: str, db: Session = Depends(get_db)):
     
     db.delete(db_comment)
     db.commit()
-    return db_comment
+    return JSONResponse(status_code=status.HTTP_200_OK, content={"message": "Comment successfully deleted"})

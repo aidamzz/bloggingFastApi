@@ -28,7 +28,7 @@ class Post(BaseModel):
 class CommentCreate(BaseModel):
     text: str
     author_id: str  # Adjust based on how you identify users
-    post_id: str
+    # post_id: str
 
 # Schema for response body of comment
 class Comment(BaseModel):
