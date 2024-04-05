@@ -13,6 +13,7 @@ class Post(Base):
     content = Column(Text)
     created_at = Column(TIMESTAMP)
     author_id = Column(String(36), ForeignKey('users.id'))
+    tags = Column(String(255))
 
     author = relationship("User", back_populates="posts")
     comments = relationship("Comment", back_populates="post")
