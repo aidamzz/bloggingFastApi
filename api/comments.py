@@ -5,7 +5,7 @@ from datetime import datetime
 from .. import models, schemas
 from ..database import SessionLocal
 from fastapi.responses import JSONResponse
-
+from ..auth import get_current_user
 router = APIRouter()
 
 # Dependency to get DB session
@@ -17,7 +17,7 @@ def get_db():
         db.close()
 
 @router.post("/posts/{post_id}/comments/", response_model=schemas.Comment)
-def create_comment_for_post(post_id: str, comment: schemas.CommentCreate, db: Session = Depends(get_db)):
+def create_comment_for_post(post_id: str, comment: schemas.CommentCreate, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_user)):
     # print(post_id)
     # Verify post exists
     db_post = db.query(models.Post).filter(models.Post.id == post_id).first()
@@ -41,7 +41,7 @@ def get_comments_for_post(post_id: str, db: Session = Depends(get_db)):
     return db.query(models.Comment).filter(models.Comment.post_id == post_id).all()
 
 @router.delete("/comments/{comment_id}", response_model=schemas.Comment)
-def delete_comment(comment_id: str, db: Session = Depends(get_db)):
+def delete_comment(comment_id: str, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_user)):
     db_comment = db.query(models.Comment).filter(models.Comment.id == comment_id).first()
     if db_comment is None:
         raise HTTPException(status_code=404, detail="Comment not found")

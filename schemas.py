@@ -37,6 +37,16 @@ class Comment(BaseModel):
     author_id: str
     post_id: str
     created_at: Optional[datetime] = None
+class UserCreate(BaseModel):
+    username: str
+    email: str
+    password: str
 
+class User(BaseModel):
+    id: str
+    username: str
+    email: str
     class Config:
         orm_mode = True
+class TokenData(BaseModel):
+    username: Optional[str] = None

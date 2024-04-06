@@ -3,7 +3,8 @@ from sqlalchemy import Column, String, Text, TIMESTAMP, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from .database import Base
-
+from passlib.context import CryptContext
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 def generate_uuid():
     return str(uuid.uuid4())  # Generate a UUID and convert it to a string
 
@@ -39,3 +40,5 @@ class User(Base):
 
     posts = relationship("Post", back_populates="author", cascade="all, delete-orphan")
     comments = relationship("Comment", back_populates="author", cascade="all, delete-orphan")
+    def verify_password(self, plain_password):
+        return pwd_context.verify(plain_password, self.hashed_password)

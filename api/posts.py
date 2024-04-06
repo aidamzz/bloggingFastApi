@@ -5,6 +5,7 @@ from datetime import datetime
 from .. import models, schemas
 from ..database import SessionLocal
 from fastapi.responses import JSONResponse
+from ..auth import get_current_user
 
 router = APIRouter()
 
@@ -17,7 +18,7 @@ def get_db():
         db.close()
 
 @router.post("/", response_model=schemas.Post)
-def create_post(post: schemas.PostCreate, db: Session = Depends(get_db)):
+def create_post(post: schemas.PostCreate, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_user)):
     db_post = models.Post(**post.dict())
     db.add(db_post)
     db.commit()
@@ -27,7 +28,7 @@ def create_post(post: schemas.PostCreate, db: Session = Depends(get_db)):
 @router.get("/", response_model=List[schemas.Post])
 def read_posts(skip: int = 0, limit: int = 10, author_id: Optional[str] = None, 
                date: Optional[datetime] = None, tags: Optional[str] = None, 
-               db: Session = Depends(get_db)):
+               db: Session = Depends(get_db),):
     query = db.query(models.Post)
     if author_id:
         query = query.filter(models.Post.author_id == author_id)
@@ -46,7 +47,7 @@ def read_post(post_id: str, db: Session = Depends(get_db)):
     return post
 
 @router.put("/{post_id}", response_model=schemas.Post)
-def update_post(post_id: str, post_update: schemas.PostUpdate, db: Session = Depends(get_db)):
+def update_post(post_id: str, post_update: schemas.PostUpdate, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_user)):
     post = db.query(models.Post).filter(models.Post.id == post_id).first()
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
@@ -57,7 +58,7 @@ def update_post(post_id: str, post_update: schemas.PostUpdate, db: Session = Dep
     return post
 
 @router.delete("/{post_id}", response_model=schemas.Post)
-def delete_post(post_id: str, db: Session = Depends(get_db)):
+def delete_post(post_id: str, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_user)):
     post = db.query(models.Post).filter(models.Post.id == post_id).first()
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
