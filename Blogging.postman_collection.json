@@ -1,0 +1,411 @@
+{
+	"info": {
+		"_postman_id": "50e3eeab-782c-4a2b-8bf9-19c6a3e04ad0",
+		"name": "Blogging",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20272997",
+		"_collection_link": "https://interstellar-sunset-95263.postman.co/workspace/express~41c4b82d-d746-4dbe-a1bc-a40a87be9d02/collection/20272997-50e3eeab-782c-4a2b-8bf9-19c6a3e04ad0?action=share&source=collection_link&creator=20272997"
+	},
+	"item": [
+		{
+			"name": "Posts",
+			"item": [
+				{
+					"name": "create_post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhaWRhc2FkIiwiZXhwIjoxNzEyMzk5NTAxfQ.bDJ2SOOapnchDMUPXnSVRIq17nuSmUWkjaGlrjIC-Ro",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"My First Blog Post\",\r\n    \"content\": \"This is the content of my first blog post.\",\r\n    \"author_id\": \"abd12db0-2b07-4b57-aa64-c931ed62ce15\",\r\n    \"tags\": \"first, blog\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/posts/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"posts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter_postes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"My First Blog Post\",\r\n    \"content\": \"This is the content of my first blog post.\",\r\n    \"author_id\": \"1\",\r\n    \"tags\": \"first, blog\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/posts/?username=aidasad&date=2024-04-06T13:41:38&tags=blog",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"posts",
+								""
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "aidasad"
+								},
+								{
+									"key": "date",
+									"value": "2024-04-06T13:41:38"
+								},
+								{
+									"key": "tags",
+									"value": "blog"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "read_post",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"My First Blog Post\",\r\n    \"content\": \"This is the content of my first blog post.\",\r\n    \"author_id\": \"1\",\r\n    \"tags\": \"first, blog\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/posts/c4e0866e-c5ee-4d46-ab62-0cf11289aa78",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"posts",
+								"c4e0866e-c5ee-4d46-ab62-0cf11289aa78"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update_post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhaWRhc2FkIiwiZXhwIjoxNzEyMzk5NTAxfQ.bDJ2SOOapnchDMUPXnSVRIq17nuSmUWkjaGlrjIC-Ro",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"author_id\": \"2\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/posts/c4e0866e-c5ee-4d46-ab62-0cf11289aa78",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"posts",
+								"c4e0866e-c5ee-4d46-ab62-0cf11289aa78"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhaWRhc2FkIiwiZXhwIjoxNzEyMzk5NTAxfQ.bDJ2SOOapnchDMUPXnSVRIq17nuSmUWkjaGlrjIC-Ro",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"author_id\": \"2\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/posts/c4e0866e-c5ee-4d46-ab62-0cf11289aa78",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"posts",
+								"c4e0866e-c5ee-4d46-ab62-0cf11289aa78"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "create_comment_for_post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhaWRhc2FkIiwiZXhwIjoxNzEyMzk5NTAxfQ.bDJ2SOOapnchDMUPXnSVRIq17nuSmUWkjaGlrjIC-Ro",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"text\": \"This is the content of my first comment.\",\r\n    \"author_id\": \"1\",\r\n    \"post_id\": \"18bbc47d-dce6-49d0-b878-447d79782bb0\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/posts/5f9a462b-5366-450b-9c0d-65f3f5c56b2f/comments/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"posts",
+								"5f9a462b-5366-450b-9c0d-65f3f5c56b2f",
+								"comments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_comments_for_post",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"text\": \"This is the content of my first comment.\",\r\n    \"author_id\": \"1\",\r\n    \"post_id\": \"18bbc47d-dce6-49d0-b878-447d79782bb0\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/posts/5f9a462b-5366-450b-9c0d-65f3f5c56b2f/comments/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"posts",
+								"5f9a462b-5366-450b-9c0d-65f3f5c56b2f",
+								"comments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_comment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"My First Blog Post\",\r\n    \"content\": \"This is the content of my first blog post.\",\r\n    \"author_id\": \"1\",\r\n    \"tags\": \"first, blog\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/comments/f927561c-98b1-4d20-8ff2-278a0d97cdbe",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"comments",
+								"f927561c-98b1-4d20-8ff2-278a0d97cdbe"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "create_user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"aidasad\",\r\n    \"password\": \"sdaddasasd\",\r\n    \"email\": \"sdsa@f.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/users",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login_for_access_token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"aidasad\",\r\n    \"password\": \"sdaddasasd\",\r\n    \"email\": \"sdsa@f.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/token",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
