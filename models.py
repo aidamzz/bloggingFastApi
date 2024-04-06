@@ -16,7 +16,6 @@ class Post(Base):
     created_at = Column(DateTime(timezone=True), default=func.now())
     author_id = Column(String(36), ForeignKey('users.id'))
     tags = Column(String(255))
-
     author = relationship("User", back_populates="posts")
     comments = relationship("Comment", back_populates="post")
 

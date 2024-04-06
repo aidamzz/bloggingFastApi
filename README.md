@@ -11,13 +11,9 @@ Setup
 Installation
 Clone the repository:
 
-bash
-Copy code
 git clone https://github.com/yourusername/fastapi-blogging-platform.git
 Install dependencies:
 
-bash
-Copy code
 pip install -r requirements.txt
 Database Setup
 Create a MySQL database for the blogging platform.
@@ -25,12 +21,9 @@ Update the SQLALCHEMY_DATABASE_URL variable in main.py with your MySQL username,
 Running the Application
 Start the FastAPI server using Uvicorn:
 
-bash
-Copy code
 uvicorn main:app --reload
 The server should now be running on http://localhost:8000.
 
-Usage
 User Registration
 To register a new user, send a POST request to /register/ with the following JSON payload:
 

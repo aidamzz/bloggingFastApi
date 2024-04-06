@@ -26,16 +26,21 @@ def create_post(post: schemas.PostCreate, db: Session = Depends(get_db), current
     return db_post
 
 @router.get("/", response_model=List[schemas.Post])
-def read_posts(skip: int = 0, limit: int = 10, author_id: Optional[str] = None, 
+def read_posts(skip: int = 0, limit: int = 10, username: Optional[str] = None, 
                date: Optional[datetime] = None, tags: Optional[str] = None, 
-               db: Session = Depends(get_db),):
+               db: Session = Depends(get_db)):
     query = db.query(models.Post)
-    if author_id:
-        query = query.filter(models.Post.author_id == author_id)
+    
+    if username:
+        # Join Post and User tables and filter by username.
+        # The "Post.author" is the relationship attribute on the Post model that references the User model.
+        query = query.join(models.Post.author).filter(models.User.username == username)
+        
     if date:
         query = query.filter(models.Post.created_at == date)
     if tags:
         query = query.filter(models.Post.tags.contains(tags))
+        
     posts = query.offset(skip).limit(limit).all()
     return posts
 
