@@ -94,7 +94,7 @@ Common error responses include:
 
 Protected endpoints require an `Authorization` header with a Bearer token obtained from the login endpoint:
 
-```plaintext
+
 Authorization: Bearer <your_jwt_token_here>
 # Authentication Mechanism
 
@@ -136,7 +136,6 @@ Ensure the following dependencies are installed in your environment for the auth
 
 ## Implementation Highlights
 
-```python
 # Example of password hashing
 hashed_password = get_password_hash("your_password")
 
@@ -201,7 +200,7 @@ Retrieves a list of posts, with optional filters.
         "author_id": "Author's User ID",
         "tags": "Optional tags"
       },
-      ...
+      
     ]
     ```
 
